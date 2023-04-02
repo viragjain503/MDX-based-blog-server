@@ -6,9 +6,11 @@ const mongoose = require('mongoose');
 const port = process.env.PORT || 5000
 
 const articleRoute = require('./routes/article')
+const tagsRoute = require('./routes/tags')
 
 //routes
 app.use('/article',articleRoute);
+app.use('/tags',tagsRoute);
 
 app.use(cors());
 
@@ -26,7 +28,7 @@ mongoose.connection.on("connected", (err, res) => {
 })
 
 app.get("/",(req,res)=>{
-    res.send("Hi iam live");
+    res.send([{message: "Hi iam live"}]);
 })
 
 app.listen(port, ()=>{

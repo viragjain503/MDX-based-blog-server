@@ -1,22 +1,34 @@
 const express = require('express');
 const router = express.Router()
+// const slugify = require('slugify')
+const cors = require('cors')
 
-const apiData = require('../blogs.json');
-const Article = require("../schemas/article");
+router.use(cors())
 
-router.get("/",(req,res)=>{
-    res.send(apiData);
+// const apiData = require('../blogs.json');
+const ArticleModel = require("../schemas/article");
+
+router.get("/title/:title",async (req,res)=>{
+    var result = await ArticleModel.find({ url: req.params.title }).exec();
+    res.send(result);
+})
+
+router.get("/latest",async (req,res)=>{
+    var result = await ArticleModel.find({}).exec();
+    res.send(result);
 })
 
 router.post("/", async (req,res)=>{
-    const article = await Article.create({
-        articleNumber: 1,
-        title: "How to code",
-        description: "How to know coding",
-        minsRead: 4
-    })
-    console.log(article);
-    res.send(article);
+    // const article = await ArticleModel.create({
+    //     articleNumber: 2,
+    //     title: "How to make a next js blog",
+    //     minsRead: 4,
+    //     tags : ["nextjs","nodejs","blog"],
+    //     url: "how-to-make-a-next-js-blog",
+
+    // })
+    // console.log(article);
+    // res.send(article);
 })
 
 module.exports = router;
