@@ -1,14 +1,17 @@
 const mongoose = require('mongoose');
 
 const articleSchema = new mongoose.Schema({
-    articleNumber: Number,
     title: String,
     minsRead: Number,
     published: {
         type: Date,
         default: Date.now()
     },
-    url: String
+    url: String,
+    tags: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tags'
+      }]
 })
 
 module.exports = mongoose.model("Article",articleSchema)

@@ -13,7 +13,7 @@ router.get("/",async (req,res)=>{
 
 router.get("/:tag",async (req,res)=>{
     var result = await TagsModel.find({ name : req.params.tag}).exec();
-    console.log(result);
+    // console.log(result);
     res.send(result);
 })
 
@@ -23,12 +23,12 @@ router.get("/:tag",async (req,res)=>{
 // })
 
 
-router.post("/", async (req,res)=>{
+// router.post("/", async (req,res)=>{
     // const article = await TagsModel.create({
     //     name: "nextjs",
     //     articles: ["how-to-make-a-next-js-blog"]
     // })
     // console.log(article);
     // res.send(article);
-})
+// })
 module.exports = router;

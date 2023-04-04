@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 5000
 
@@ -12,6 +13,10 @@ const tagsRoute = require('./routes/tags')
 app.use('/article',articleRoute);
 app.use('/tags',tagsRoute);
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+  }));
 app.use(cors());
 
 // for database connection
