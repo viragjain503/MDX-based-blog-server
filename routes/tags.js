@@ -11,11 +11,11 @@ router.get("/",async (req,res)=>{
     res.send(result);
 })
 
-router.get("/:tag",async (req,res)=>{
-    var result = await TagsModel.find({ name : req.params.tag}).exec();
-    // console.log(result);
-    res.send(result);
-})
+// router.get("/:tag",async (req,res)=>{
+//     var result = await TagsModel.find({ name : req.params.tag}).exec();
+//     // console.log(result);
+//     res.send(result);
+// })
 
 // router.get("/latest",async (req,res)=>{
 //     var result = await TagsModel.find({}).exec();

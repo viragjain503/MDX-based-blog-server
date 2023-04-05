@@ -31,11 +31,17 @@ router.post("/create", async (req, res) => {
 
   const tag_ids = [];
   for (let index = 0; index < req.body.tags.length; index++) {
-    const tag = new TagsModel({ name: req.body.tags[index] });
-    await tag.save();
-    tag_ids.push(tag._id);
+    var already = await TagsModel.find({name: req.body.tags[index]});
+    if(already.length == 0){
+      const tag = new TagsModel({ name: req.body.tags[index] });
+      await tag.save();
+      tag_ids.push(tag._id);
+    }else{
+      tag_ids.push(already[0]._id);
+    }
   }
 
+  // for a single tag
   //   const tag = new TagsModel({ name: "technology" });
   //   await tag.save();
 
@@ -61,11 +67,13 @@ router.get("/tagsbyarticle", async (req, res) => {
   res.send(result);
 });
 
-router.get("/articlesbytag", async (req, res) => {
+router.get("/articlesbytag/:tag", async (req, res) => {
+  console.log(req.params.tag)
+  const reqtag = await TagsModel.findOne({ name: req.params.tag});
   try {
-    var result = await ArticleModel.find().populate("tags", null, {
-      name: req.body.tag,
-    });
+    if(reqtag != null){
+      var result = await ArticleModel.find({ tags: { $in: [reqtag._id] } }).populate("tags","name");
+    }
   } catch (error) {
     console.log(error);
   }
