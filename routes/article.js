@@ -17,14 +17,31 @@ const ArticleModel = require("../schemas/article");
 const TagsModel = require("../schemas/tags");
 
 router.get("/title/:url", async (req, res) => {
-  var result = await ArticleModel.find({ url: req.params.url }).populate("tags");
-  console.log(result)
+  var result = await ArticleModel.findOne({ url: req.params.url }).populate("tags");
+  var article = await ArticleModel.findOne({ url: req.params.url })
+  
+  if (article) {
+    console.log(article)
+    await article.incrementViews();
+  }
   res.send(result);
 });
 
-router.get("/latest", async (req, res) => {
-  var result = await ArticleModel.find({}).exec();
-  res.send(result);
+router.get("/:type", async (req, res) => {
+  console.log(req.params.type);
+  if(req.params.type == "all"){
+    var result = await ArticleModel.find({}).exec();
+    res.send(result);
+  }else if(req.params.type == "latest"){
+    var result = await ArticleModel.find({}).sort({ published: -1 }).limit(5).exec();
+    res.send(result);
+  }else if(req.params.type == "top"){
+    var result = await ArticleModel.find({}).sort({ published: -1 }).limit(1).exec();
+    res.send(result);
+  }else{
+    result = [];
+    res.send(result);
+  }
 });
 
 router.post("/create", async (req, res) => {
