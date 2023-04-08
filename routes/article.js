@@ -27,6 +27,11 @@ router.get("/title/:url", async (req, res) => {
   res.send(result);
 });
 
+router.get("/titles", async (req, res) => {
+  const titles = await ArticleModel.distinct("title");
+  res.send(titles);
+});
+
 router.get("/:type", async (req, res) => {
   console.log(req.params.type);
   if(req.params.type == "all"){
