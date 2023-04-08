@@ -16,8 +16,9 @@ router.use(
 const ArticleModel = require("../schemas/article");
 const TagsModel = require("../schemas/tags");
 
-router.get("/title/:title", async (req, res) => {
-  var result = await ArticleModel.find({ url: req.params.title }).exec();
+router.get("/title/:url", async (req, res) => {
+  var result = await ArticleModel.find({ url: req.params.url }).populate("tags");
+  console.log(result)
   res.send(result);
 });
 
