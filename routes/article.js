@@ -28,12 +28,13 @@ router.get("/title/:url", async (req, res) => {
 });
 
 router.get("/titles", async (req, res) => {
+  console.log("titles")
   const titles = await ArticleModel.distinct("title");
   res.send(titles);
 });
 
 router.get("/:type", async (req, res) => {
-  console.log(req.params.type);
+  // console.log(req.params.type);
   if(req.params.type == "all"){
     var result = await ArticleModel.find({}).exec();
     res.send(result);

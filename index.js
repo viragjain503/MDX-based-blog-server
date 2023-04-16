@@ -4,6 +4,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+require('dotenv').config()
+
 const port = process.env.PORT || 5000
 
 const articleRoute = require('./routes/article')
@@ -20,7 +22,7 @@ app.use(bodyParser.urlencoded({
 app.use(cors());
 
 // for database connection
-mongoose.connect("mongodb://127.0.0.1:27017/myblog");
+mongoose.connect(process.env.DATABASE);
 
 // for database connection error
 mongoose.connection.on("error", err => {
